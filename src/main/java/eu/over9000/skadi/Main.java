@@ -25,7 +25,6 @@ package eu.over9000.skadi;
 import eu.over9000.skadi.lock.SingleInstanceLock;
 import eu.over9000.skadi.remote.VersionRetriever;
 import eu.over9000.skadi.ui.MainWindow;
-import eu.over9000.skadi.util.JavaVersionUtil;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
@@ -37,44 +36,39 @@ import java.util.Arrays;
 
 public class Main {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-	public static void main(final String[] args) throws Exception {
-		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
+    public static void main(final String[] args) throws Exception {
+        System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
 
-		printStartupInfo(args);
+        printStartupInfo(args);
 
-		if (!JavaVersionUtil.checkRequiredVersionIsPresent()) {
-			System.err.println("Skadi requires Java " + JavaVersionUtil.REQUIRED_VERSION + ", exiting");
-			return;
-		}
+        if (!SingleInstanceLock.startSocketLock()) {
+            System.err.println("another instance is up, exiting");
+            return;
+        }
 
-		if (!SingleInstanceLock.startSocketLock()) {
-			System.err.println("another instance is up, exiting");
-			return;
-		}
+        Application.launch(MainWindow.class, args);
 
-		Application.launch(MainWindow.class, args);
+        SingleInstanceLock.stopSocketLock();
 
-		SingleInstanceLock.stopSocketLock();
+        System.exit(0);
+    }
 
-		System.exit(0);
-	}
-
-	private static void printStartupInfo(final String[] args) {
-		LOGGER.info("################################################################################");
-		LOGGER.info("TIME:    " + LocalDateTime.now().toString());
-		LOGGER.info("OS:      " + SystemUtils.OS_NAME + " " + SystemUtils.OS_VERSION + " " + SystemUtils.OS_ARCH);
-		LOGGER.info("JAVA:    " + SystemUtils.JAVA_VERSION);
-		LOGGER.info("         " + SystemUtils.JAVA_RUNTIME_NAME + " <build " + SystemUtils.JAVA_RUNTIME_VERSION + ">");
-		LOGGER.info("VM:      " + SystemUtils.JAVA_VM_NAME + " <build" + SystemUtils.JAVA_VM_VERSION + ", " + SystemUtils.JAVA_VM_INFO + ">");
-		LOGGER.info("VM-ARGS: " + ManagementFactory.getRuntimeMXBean().getInputArguments());
-		if (VersionRetriever.isLocalInfoAvailable()) {
-			LOGGER.info("SKADI:   " + VersionRetriever.getLocalVersion() + " " + VersionRetriever.getLocalBuild() + " " + VersionRetriever.getLocalTimestamp());
-		} else {
-			LOGGER.info("SKADI:   " + "No local version info available");
-		}
-		LOGGER.info("ARGS:    " + Arrays.asList(args));
-		LOGGER.info("################################################################################");
-	}
+    private static void printStartupInfo(final String[] args) {
+        LOGGER.info("################################################################################");
+        LOGGER.info("TIME:    " + LocalDateTime.now().toString());
+        LOGGER.info("OS:      " + SystemUtils.OS_NAME + " " + SystemUtils.OS_VERSION + " " + SystemUtils.OS_ARCH);
+        LOGGER.info("JAVA:    " + SystemUtils.JAVA_VERSION);
+        LOGGER.info("         " + SystemUtils.JAVA_RUNTIME_NAME + " <build " + SystemUtils.JAVA_RUNTIME_VERSION + ">");
+        LOGGER.info("VM:      " + SystemUtils.JAVA_VM_NAME + " <build" + SystemUtils.JAVA_VM_VERSION + ", " + SystemUtils.JAVA_VM_INFO + ">");
+        LOGGER.info("VM-ARGS: " + ManagementFactory.getRuntimeMXBean().getInputArguments());
+        if (VersionRetriever.isLocalInfoAvailable()) {
+            LOGGER.info("SKADI:   " + VersionRetriever.getLocalVersion() + " " + VersionRetriever.getLocalBuild() + " " + VersionRetriever.getLocalTimestamp());
+        } else {
+            LOGGER.info("SKADI:   " + "No local version info available");
+        }
+        LOGGER.info("ARGS:    " + Arrays.asList(args));
+        LOGGER.info("################################################################################");
+    }
 }

@@ -32,156 +32,135 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.NONE)
 public final class StateContainer {
 
-	@XmlElementWrapper(name = "channels")
-	@XmlElement(name = "channel")
-	private final List<String> channels = new ArrayList<>();
-	@XmlElementWrapper(name = "streamlink_args")
-	@XmlElement(name = "arg")
-	private final List<String> streamlinkArgs = new ArrayList<>();
-	@XmlElement(name = "executable_chrome")
-	private String executableChrome = getDefaultChrome();
-	@XmlElement(name = "executable_streamlink")
-	private String executableStreamlink = getDefaultStreamlink();
-	@XmlElement(name = "display_notifications")
-	private boolean displayNotifications = true;
-	@XmlElement(name = "minimize_to_tray")
-	private boolean minimizeToTray = false;
-	@XmlElement(name = "online_filter_active")
-	private boolean onlineFilterActive = false;
-	@XmlElement(name = "use_dark_theme")
-	private boolean useDarkTheme = false;
-	@XmlElement(name = "show_grid")
-	private boolean showGrid = false;
-	@XmlElement(name = "window_width")
-	private double windowWidth = 1280;
-	@XmlElement(name = "window_height")
-	private double windowHeight = 720;
-	@XmlElement(name = "grid_scale")
-	private double gridScale = 0.0;
-	@XmlElement(name = "auth_token")
-	private String authToken = null;
+    @XmlElementWrapper(name = "channels")
+    @XmlElement(name = "channel")
+    private final List<String> channels = new ArrayList<>();
+    @XmlElementWrapper(name = "streamlink_args")
+    @XmlElement(name = "arg")
+    private final List<String> streamlinkArgs = new ArrayList<>();
+    @XmlElement(name = "executable_streamlink")
+    private String executableStreamlink = getDefaultStreamlink();
+    @XmlElement(name = "display_notifications")
+    private boolean displayNotifications = true;
+    @XmlElement(name = "minimize_to_tray")
+    private boolean minimizeToTray = false;
+    @XmlElement(name = "online_filter_active")
+    private boolean onlineFilterActive = false;
+    @XmlElement(name = "use_dark_theme")
+    private boolean useDarkTheme = false;
+    @XmlElement(name = "show_grid")
+    private boolean showGrid = false;
+    @XmlElement(name = "window_width")
+    private double windowWidth = 1280;
+    @XmlElement(name = "window_height")
+    private double windowHeight = 720;
+    @XmlElement(name = "grid_scale")
+    private double gridScale = 0.0;
+    @XmlElement(name = "auth_token")
+    private String authToken = null;
 
-	public StateContainer() {
-	}
+    public StateContainer() {
+    }
 
+    private static String getDefaultStreamlink() {
+        if (SystemUtils.IS_OS_WINDOWS) {
+            return "C:\\Program Files (x86)\\Streamlink\\bin\\streamlink.exe";
+        } else if (SystemUtils.IS_OS_MAC_OSX) {
+            return "streamlink";
+        } else {
+            return "streamlink";
+        }
+    }
 
-	private static String getDefaultStreamlink() {
-		if (SystemUtils.IS_OS_WINDOWS) {
-			return "C:\\Program Files (x86)\\Streamlink\\bin\\streamlink.exe";
-		} else if (SystemUtils.IS_OS_MAC_OSX) {
-			return "streamlink";
-		} else {
-			return "streamlink";
-		}
-	}
+    public String getExecutableStreamlink() {
+        return executableStreamlink;
+    }
 
-	private static String getDefaultChrome() {
-		if (SystemUtils.IS_OS_WINDOWS) {
-			return "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
-		} else if (SystemUtils.IS_OS_MAC_OSX) {
-			return "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-		} else {
-			return "chromium-browser";
-		}
-	}
+    public void setExecutableStreamlink(final String executableStreamlink) {
+        this.executableStreamlink = executableStreamlink;
+    }
 
-	public String getExecutableChrome() {
-		return executableChrome;
-	}
+    public boolean isDisplayNotifications() {
+        return displayNotifications;
+    }
 
-	public void setExecutableChrome(final String executableChrome) {
-		this.executableChrome = executableChrome;
-	}
+    public void setDisplayNotifications(final boolean displayNotifications) {
+        this.displayNotifications = displayNotifications;
+    }
 
-	public String getExecutableStreamlink() {
-		return executableStreamlink;
-	}
+    public boolean isMinimizeToTray() {
+        return minimizeToTray;
+    }
 
-	public void setExecutableStreamlink(final String executableStreamlink) {
-		this.executableStreamlink = executableStreamlink;
-	}
+    public void setMinimizeToTray(final boolean minimizeToTray) {
+        this.minimizeToTray = minimizeToTray;
+    }
 
-	public boolean isDisplayNotifications() {
-		return displayNotifications;
-	}
+    public List<String> getChannels() {
+        return channels;
+    }
 
-	public void setDisplayNotifications(final boolean displayNotifications) {
-		this.displayNotifications = displayNotifications;
-	}
+    public boolean isOnlineFilterActive() {
+        return onlineFilterActive;
+    }
 
-	public boolean isMinimizeToTray() {
-		return minimizeToTray;
-	}
+    public void setOnlineFilterActive(final boolean onlineFilterActive) {
+        this.onlineFilterActive = onlineFilterActive;
+    }
 
-	public void setMinimizeToTray(final boolean minimizeToTray) {
-		this.minimizeToTray = minimizeToTray;
-	}
+    public boolean isUseDarkTheme() {
+        return useDarkTheme;
+    }
 
-	public List<String> getChannels() {
-		return channels;
-	}
+    public void setUseDarkTheme(final boolean useDarkTheme) {
+        this.useDarkTheme = useDarkTheme;
+    }
 
-	public boolean isOnlineFilterActive() {
-		return onlineFilterActive;
-	}
+    public boolean isShowGrid() {
+        return showGrid;
+    }
 
-	public void setOnlineFilterActive(final boolean onlineFilterActive) {
-		this.onlineFilterActive = onlineFilterActive;
-	}
+    public void setShowGrid(final boolean showGrid) {
+        this.showGrid = showGrid;
+    }
 
-	public boolean isUseDarkTheme() {
-		return useDarkTheme;
-	}
+    public double getWindowWidth() {
+        return windowWidth;
+    }
 
-	public void setUseDarkTheme(final boolean useDarkTheme) {
-		this.useDarkTheme = useDarkTheme;
-	}
+    public void setWindowWidth(final double windowWidth) {
+        this.windowWidth = windowWidth;
+    }
 
-	public boolean isShowGrid() {
-		return showGrid;
-	}
+    public double getWindowHeight() {
+        return windowHeight;
+    }
 
-	public void setShowGrid(final boolean showGrid) {
-		this.showGrid = showGrid;
-	}
+    public void setWindowHeight(final double windowHeight) {
+        this.windowHeight = windowHeight;
+    }
 
-	public double getWindowWidth() {
-		return windowWidth;
-	}
+    public double getGridScale() {
+        return gridScale;
+    }
 
-	public void setWindowWidth(final double windowWidth) {
-		this.windowWidth = windowWidth;
-	}
+    public void setGridScale(final double gridScale) {
+        this.gridScale = gridScale;
+    }
 
-	public double getWindowHeight() {
-		return windowHeight;
-	}
+    public String getAuthToken() {
+        return authToken;
+    }
 
-	public void setWindowHeight(final double windowHeight) {
-		this.windowHeight = windowHeight;
-	}
+    public void setAuthToken(final String authToken) {
+        this.authToken = authToken;
+    }
 
-	public double getGridScale() {
-		return gridScale;
-	}
+    public boolean hasAuthCode() {
+        return authToken != null && !authToken.isEmpty();
+    }
 
-	public void setGridScale(final double gridScale) {
-		this.gridScale = gridScale;
-	}
-
-	public String getAuthToken() {
-		return authToken;
-	}
-
-	public void setAuthToken(final String authToken) {
-		this.authToken = authToken;
-	}
-
-	public boolean hasAuthCode() {
-		return authToken != null && !authToken.isEmpty();
-	}
-
-	public List<String> getStreamlinkArgs() {
-		return streamlinkArgs;
-	}
+    public List<String> getStreamlinkArgs() {
+        return streamlinkArgs;
+    }
 }

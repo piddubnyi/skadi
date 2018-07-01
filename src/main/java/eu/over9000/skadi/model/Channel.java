@@ -23,7 +23,6 @@
 package eu.over9000.skadi.model;
 
 import eu.over9000.skadi.remote.data.ChannelMetadata;
-import eu.over9000.skadi.util.NotificationUtil;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -102,10 +101,6 @@ public class Channel {
 		}
 
 		setLastUpdated(LocalTime.now());
-
-		if (cameOnline()) {
-			NotificationUtil.showOnlineNotification(this);
-		}
 	}
 
 	private boolean cameOnline() {

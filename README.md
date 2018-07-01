@@ -1,47 +1,42 @@
-#Skadi v2
-Skadi allows you to comfortably watch Twitch channels via streamlink / VLC (or any videoplayer compatible with streamlink) and to ~~enjoy~~ open the Twitch chat of the channels you are watching. Skadi can import the channels you follow from Twitch so you don't have to add them all manually and will display a notification if a channel goes live.
-
-v2 is a rewrite using JavaFX and Java 8 features.
-
-![skadi screenshot 1](https://i.imgur.com/cQps54F.jpg "grid view dark theme")
-![skadi screenshot 2](https://i.imgur.com/RpWgRoA.jpg "grid view light theme")
-![skadi screenshot 3](https://i.imgur.com/nUFr3Wa.jpg "channel detail pane")
-![skadi screenshot 5](https://i.imgur.com/ExnJCtW.png "open stream and chat")
+#Skadi-simple v2
+Fork of original Skadi with some functions reworked:
+Allows you to comfortably watch Twitch channels via streamlink / VLC (or any videoplayer compatible with streamlink).
+No browser needed - you only watch plain stream in video player.
 
 ## Download
-see https://github.com/s1mpl3x/skadi/releases
+see https://github.com/piddubnyi/skadi-simple/releases
 
 ## Required software
-* [Java 1.8u60+](https://www.java.com/download/) 
+* ~~[Java 1.8u60+]~~[Any Java version](https://www.java.com/download/)
 * [streamlink](https://github.com/streamlink/streamlink/releases)
-* [Chrome](https://www.google.com/chrome/) (or chromium)
+* ~~[Chrome]~~(https://www.google.com/chrome/)
 * [VLC](https://www.videolan.org/vlc/) (or any videoplayer compatible with streamlink, see  [streamlink documentation](http://docs.streamlink.io/players.html))
 
 Make sure to keep streamlink and Java up to date.
 
 ## Features
-* version check / update download
+* ~~version check / update download~~
 * import followed channels
 * channel filtering
 * streams can be opened in all available stream qualities
-* chats are opened in chrome/chromium
+* ~~chats are opened in chrome/chromium~~ no chat, Just watch your stream.
 * channel detail pane (double click on a channel or click the 'i' button) showing the channel panels, preview, stats, sub-emotes and a viewer graph
 * light and dark theme
 * table and grid view
 * logging
-* notifications if a channel goes live
+* ~~notifications if a channel goes live~~ Suiteable for work, nothing bothers you
 * minimize to tray (https://javafx-jira.kenai.com/browse/RT-17503 uses old AWT API)
 * drag and drop channel names/urls do add
 * channel auto updated every 60s / force refresh
 * twitch-auth and followed sync between Skadi and Twitch
 
-### TODO/PLANNED/KNOWN BUGS
-see https://github.com/s1mpl3x/skadi/issues 
-If you have a feature request or found a bug, create a new issue (and include the log file if appropriate). 
+### TODO
+If you have a feature request or found a bug, create a new issue (and include the log file if appropriate).
 
 ## Setup
-If Skadi fails to open streams or chats with the default configuration values (see log file or the status bar), you might need to change the paths for Chrome or streamlink in the settings dialog. Often the problem isn't related to Skadi but to streamlink, so you might want to check if streamlink is setup correctly first.
-The log and config are stored under `{user.home}/.skadi/` and in the settings dialog there is a button to open the log.
+If Skadi fails to open streams or chats with the default configuration values (see log file or the status bar), you might need to change the paths to streamlink in the settings dialog. Often the problem isn't related to Skadi but to streamlink, so you might want to check if streamlink is setup correctly first.
+The log and config are in ./.skadi
+There is a button to open the log in the settings dialog.
 
 ## Usage
 launch Skadi via `java -jar skadi.jar` if a double click on the jar does not work.

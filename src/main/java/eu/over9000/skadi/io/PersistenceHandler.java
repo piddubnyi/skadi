@@ -23,7 +23,6 @@
 package eu.over9000.skadi.io;
 
 import eu.over9000.skadi.model.StateContainer;
-import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,75 +38,75 @@ import java.nio.file.Paths;
 
 public final class PersistenceHandler {
 
-	public static final String SKADI_DIRECTORY_NAME = ".skadi";
-	public static final String PERSISTENCE_DIRECTORY = SystemUtils.USER_HOME + File.separator + SKADI_DIRECTORY_NAME + File.separator;
-	public static final String PERSISTENCE_FILE = "skadi_state.xml";
-	private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceHandler.class);
-	private final Object fileLock = new Object();
-	private Marshaller marshaller;
-	private Unmarshaller unmarshaller;
+    public static final String SKADI_DIRECTORY_NAME = ".skadi";
+    public static final String PERSISTENCE_DIRECTORY = SKADI_DIRECTORY_NAME + File.separator;
+    public static final String PERSISTENCE_FILE = "skadi_state.xml";
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersistenceHandler.class);
+    private final Object fileLock = new Object();
+    private Marshaller marshaller;
+    private Unmarshaller unmarshaller;
 
-	public PersistenceHandler() {
-		try {
-			final JAXBContext context = JAXBContext.newInstance(StateContainer.class);
-			marshaller = context.createMarshaller();
-			unmarshaller = context.createUnmarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    public PersistenceHandler() {
+        try {
+            final JAXBContext context = JAXBContext.newInstance(StateContainer.class);
+            marshaller = context.createMarshaller();
+            unmarshaller = context.createUnmarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		} catch (final JAXBException e) {
-			LOGGER.error("exception construction persistence handler", e);
-		}
-	}
+        } catch (final JAXBException e) {
+            LOGGER.error("exception construction persistence handler", e);
+        }
+    }
 
-	public StateContainer loadState() {
-		StateContainer result;
-		try {
-			if (Files.exists(getStateFilePath())) {
-				result = readFromFile();
-			} else {
-				checkDir();
-				result = new StateContainer();
-				writeToFile(result);
-			}
-		} catch (IOException | JAXBException e) {
-			LOGGER.error("exception loading state, will fallback to default settings", e);
-			result = new StateContainer();
-		}
-		return result;
-	}
+    public StateContainer loadState() {
+        StateContainer result;
+        try {
+            if (Files.exists(getStateFilePath())) {
+                result = readFromFile();
+            } else {
+                checkDir();
+                result = new StateContainer();
+                writeToFile(result);
+            }
+        } catch (IOException | JAXBException e) {
+            LOGGER.error("exception loading state, will fallback to default settings", e);
+            result = new StateContainer();
+        }
+        return result;
+    }
 
-	public void saveState(final StateContainer state) {
-		try {
-			checkDir();
-			writeToFile(state);
-		} catch (IOException | JAXBException e) {
-			LOGGER.error("exception saving state", e);
-		}
-	}
+    public void saveState(final StateContainer state) {
+        try {
+            checkDir();
+            writeToFile(state);
+        } catch (IOException | JAXBException e) {
+            LOGGER.error("exception saving state", e);
+        }
+    }
 
-	private Path getStateFilePath() {
-		return Paths.get(PERSISTENCE_DIRECTORY, PERSISTENCE_FILE);
-	}
+    private Path getStateFilePath() {
+        return Paths.get(PERSISTENCE_DIRECTORY, PERSISTENCE_FILE);
+    }
 
-	private void writeToFile(final StateContainer state) throws IOException, JAXBException {
-		final Path stateFile = getStateFilePath();
-		synchronized (fileLock) {
-			marshaller.marshal(state, stateFile.toFile());
-		}
-		LOGGER.debug("wrote state to file");
-	}
+    private void writeToFile(final StateContainer state) throws IOException, JAXBException {
+        final Path stateFile = getStateFilePath();
+        synchronized (fileLock) {
+            marshaller.marshal(state, stateFile.toFile());
+        }
+        LOGGER.debug("wrote state to file");
+    }
 
-	private StateContainer readFromFile() throws IOException, JAXBException {
-		final Path stateFile = getStateFilePath();
-		final StateContainer state;
-		synchronized (fileLock) {
-			state = (StateContainer) unmarshaller.unmarshal(stateFile.toFile());
-		}
-		LOGGER.debug("load state from file");
-		return state;
-	}
+    private StateContainer readFromFile() throws IOException, JAXBException {
+        final Path stateFile = getStateFilePath();
+        final StateContainer state;
+        synchronized (fileLock) {
+            state = (StateContainer) unmarshaller.unmarshal(stateFile.toFile());
+        }
+        LOGGER.debug("load state from file");
+        return state;
+    }
 
-	private void checkDir() throws IOException {
-		Files.createDirectories(Paths.get(PERSISTENCE_DIRECTORY));
-	}
+    private void checkDir() throws IOException {
+        Files.createDirectories(Paths.get(PERSISTENCE_DIRECTORY));
+    }
 }
