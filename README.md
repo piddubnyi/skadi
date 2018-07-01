@@ -24,7 +24,7 @@ Make sure to keep streamlink and Java up to date.
 * light and dark theme
 * table and grid view
 * logging
-* ~~notifications if a channel goes live~~ Suiteable for work, nothing bothers you
+* ~~notifications if a channel goes live~~ Suitable for work, nothing bothers you
 * minimize to tray (https://javafx-jira.kenai.com/browse/RT-17503 uses old AWT API)
 * drag and drop channel names/urls do add
 * channel auto updated every 60s / force refresh
